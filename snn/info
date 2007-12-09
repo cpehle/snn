@@ -1,0 +1,22 @@
+# example network configuration file
+# import data from another file
+import external.cfg
+
+start layer retina liaf
+threshold 0.06
+R 30000
+C 0.000001
+width 160
+height 120
+depth 1
+end layer retina
+
+start layer tectum liaf
+end layer tectum
+
+import ni.cfg
+
+import retinotectal.cfg
+
+start projection tectoisthmic
+end projection tectoisthmic

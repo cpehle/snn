@@ -1,0 +1,4 @@
+start projection retinotectal ssynapse
+weight 1.0
+geometry topographic
+end projection retinotectal ssynapse

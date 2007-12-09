@@ -1,0 +1,39 @@
+Setup files as follows
+
+snn.h
+	base.h (contains sneuron, slayer, synapse, projection : base classes)
+	... any number of neuron types
+	Liaf
+		(must contain:)
+			model unit
+			layer of units (+configuration handling)
+	
+
+=====API
+configuration via
+	defaults : parameters
+	config files : architecture & parameters
+	command line : architecture & parameters
+
+network parameters
+	timesteps : number of milliseconds
+
+neurons : setup as layers
+	layerid	<string>	: name
+	neuron type			: <liafms, liafdtms, aeifms>
+	layer parameters	: threshold, <tau, reset, bursting>
+	neurons[x]			: array of neurons
+	ystep, zstep 		: translate neuron(x,y) calls into neuron[x + ystep*y], neuron(x,y,z) into x + ystep*y + zstep*z]
+
+connections : setup as projections
+	connid <string>		: name
+	connection type		: <ssynapse, asynapse, stdpsynapse>
+	geometry			: topographic? divergent(x) convergent(x) full
+	common parameters	: weight, delay
+	synapses[x]			: array of synapses
+
+==================
+
+input :
+
+output :

@@ -1,0 +1,9 @@
+start layer retina liaf
+thresh 0.06
+r 30000
+c 0.000001
+width 160
+height 120
+depth 1
+make
+end layer retina liaf
