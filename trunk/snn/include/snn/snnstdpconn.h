@@ -2,6 +2,14 @@
  #define _SNNSTDPCONN_H
 
 #include "snnbase.h"
+/**
+ * \file snnstdpconn.h
+ * STDP projection file
+ * \author Brett Graham
+ * \date 12-04-07
+ * \todo
+ * - fix learning & configuration
+*/
 
 /// Learning synapse model (using STDP)
 /**
@@ -65,6 +73,7 @@ class STDPSynapse: public Synapse {
 
 class STDPProjection: public Projection {
 	public:
+		STDPProjection();
 		void add_synapse();
 		void add_synapse(unsigned int* PreSpiking, double* PostInput, unsigned int* PostSpiking);
 		void add_synapse(unsigned int* PreSpiking, double* PostInput, unsigned int* PostSpiking, double weight);

@@ -32,6 +32,7 @@ class ASynapse: public Synapse {
 
 class AProjection: public Projection {
 	public:
+		AProjection();
 		void add_synapse();
 		void add_synapse(double* pPre, double* PostInput);
 		void add_synapse(double* pPre, double* PostInput, double weight);

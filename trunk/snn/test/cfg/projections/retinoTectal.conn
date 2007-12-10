@@ -1,3 +1,6 @@
+# layer to layer : ssynapse, stdpsynapse : need <layer> <layer>
+# analog values to layer : asynapse : need <analog values> <layer>
+# layer to analog values? : ? : need <layer> <analog values>
 start projection retinotectal ssynapse
 weight 1.0
 geometry topographic

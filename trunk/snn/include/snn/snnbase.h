@@ -9,6 +9,8 @@
  * - do I need the abstract destructor statements?
  * - add latex of activation functions
  * - find better way to read spike data (rather than cycling through previous activity
+ * - sort out analog inputs (outside API, assign AnalogArray, run configure)
+ * - sort out how to connect projections regardless of the underlying type
 */
 
 #include <math.h>
@@ -85,6 +87,21 @@ class SNeuron {
 		// 32 bit unsigned int
 //		std:: vector <double*> vpost;
 };
+
+/// class for analog inputs
+/**
+	This may work much better using a Template class
+*/
+template <typename T>
+class AnalogArray {
+	public:
+		T* data;
+		int width;
+		int height;
+		int depth;
+		std::string id;
+};
+
 /// Abstract layer base class
 /**
 	An abstract base class for all layers (a sheet of neurons)
@@ -92,7 +109,7 @@ class SNeuron {
 class Layer {
 	public:
 		/// Constructor - setup default values for neuron model
-		Layer() { id = ""; width = 0; height = 0; };
+		Layer() { id = ""; width = 0; height = 0; depth = 0; };
 		/// layer name, may or may not use this
 		std::string id;
 		/// one-dimensional vector holding neurons
@@ -142,16 +159,21 @@ class Synapse {
 */
 class Projection {
 	public:
-		Projection();
+		Projection() { id=""; /*width=0; height=0; depth=0;*/ commonWeight = 1.0; };
 		std::string id;
 //		SynapseType synapseType;
 		std::vector<Synapse*> synapses;
-		int yStep;
-		int zStep;
+/*		int width;
+		int height;
+		int depth; */
 		double commonWeight;
-		Synapse* get_synapse(int x) { return synapses.at(x); };
-		Synapse* get_synapse(int x, int y) { return synapses.at(x+y*yStep); };
-		Synapse* get_synapse(int x, int y, int z) { return synapses.at(x+y*yStep+z*zStep); };
+/*		Synapse* get_synapse(int x) { return synapses.at(x); };
+		Synapse* get_synapse(int x, int y) { return synapses.at(x+y*width); };
+		Synapse* get_synapse(int x, int y, int z) { return synapses.at(x+y*width+z*height); }; */
+		int connect_topographic();
+		int connect_divergent();
+		int connect_convergent();
+		int connect_full();
 		virtual void add_synapse() = 0;
 		virtual int configure(CfgLineItems line, bool verbose) = 0;
 		void step() { for(int i=0; i < synapses.size(); i++){ synapses[i]->step(); }; };

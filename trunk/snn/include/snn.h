@@ -1,13 +1,13 @@
 #ifndef _SNN_H
  #define _SNN_H
 
-#include "snnbase.h"
-#include "snnliaf.h"
-#include "snnliafdt.h"
-#include "snnaeif.h"
-#include "snnaconn.h"
-#include "snnsconn.h"
-#include "snnstdpconn.h"
+#include "snn/snnbase.h"
+#include "snn/snnliaf.h"
+#include "snn/snnliafdt.h"
+#include "snn/snnaeif.h"
+#include "snn/snnaconn.h"
+#include "snn/snnsconn.h"
+#include "snn/snnstdpconn.h"
 #include "cfgfile.h"
 
 /**
@@ -18,7 +18,6 @@
  * \todo
  * - figure out projection building procedure
  * - fix projection building procedure
- * - split up unit & projection files into subdirectories
  * - document how to add a new unit or projection
  * - add error checking
  * - setup general cfg for snn
@@ -39,6 +38,7 @@ class SNN {
 		
 		std::vector<Layer*> layers;
 		std::vector<Projection*> projections;
+//		std::vector<AnalogArray*> analogs;
 		
 		void run_network(int timeSteps = 1) { for (int i = 0; i < timeSteps; i++) {step();}; };
 		void step();

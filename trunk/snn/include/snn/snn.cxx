@@ -21,7 +21,32 @@ int SNN::add_layer(CfgLineItems cfgLine) {
 }
 
 int SNN::add_projection(CfgLineItems cfgLine) {
-	return 0;
+	// if type = aconn, look for analog input (4) and layer (5)
+	// if not, look for layer (4) and layer (5)
+	if (cfgLine->at(3) == "ssynapse") {
+		// get layer : &layers.at(get_layer_index(cfgLine->at(4)))
+		// get layer : &layers.at(get_layer_index(cfgLine->at(5)))
+		if (cfgLine->size() < 6) {
+			projections.push_back(new SProjection(
+				layers.at(get_layer_index(cfgLine->at(4))),
+				layers.at(get_layer_index(cfgLine->at(5)))
+				));
+			projections.at(projections.size()-1)->id = cfgLine->at(2);
+			return 0;
+		} else {
+			return 1;
+		}
+	} else if (cfgLine->at(3) == "asynapse") {
+		projections.push_back(new AProjection);
+		projections.at(projections.size()-1)->id = cfgLine->at(2);
+		return 0;
+	} else if (cfgLine->at(3) == "stdpsynapse") {
+		projections.push_back(new STDPProjection);
+		projections.at(projections.size()-1)->id = cfgLine->at(2);
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 /// Process configuration file
@@ -40,7 +65,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 			// each layer definition starts with 'start layer <id> <type>' and ends with 'end layer <id> <type>'
 			if (myItems->at(1) == "layer") {
 				// make layer of id = myItems->at(2) and type = myItems->at(3)
-				add_layer(myItems);
+				if (add_layer(myItems)) return 1;
 				int layerIndex = layers.size() - 1;
 				if (verbose) std::cout << "making layer " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << layerIndex << "\n";
 				// keep feeding lines until "end layer <id> <type>"
@@ -52,7 +77,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 				// check if id & type agree?
 			} else if (myItems->at(1) == "projection") {
 				// make projection of id = myItems->at(2) and type = myItems->at(3)
-				add_projection(myItems);
+				if (add_projection(myItems)) return 1;
 				int projectionIndex = projections.size() -1;
 				if (verbose) std::cout << "making projection " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << projectionIndex << "\n";
 				// keep feeding lines until "end projection <id> <type>"
