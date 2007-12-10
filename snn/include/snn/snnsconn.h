@@ -44,7 +44,9 @@ class SSynapse: public Synapse {
 
 class SProjection: public Projection {
 	public:
-		SProjection ();
+		SProjection(Layer* PreLayer, Layer* PostLayer);
+		Layer* Pre;
+		Layer* Post;
 		unsigned int commonDelay;
 		void add_synapse();
 		void add_synapse(unsigned int* PreSpiking, double* PostInput);

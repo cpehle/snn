@@ -7,7 +7,6 @@
  * \author Brett Graham
  * \date 12-04-07
  * \todo
- * - write AeifMsLayer::configure(CfgLineItems line)
 */
 
 #include "snnbase.h"

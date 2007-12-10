@@ -8,7 +8,7 @@
 LOCAL = -I../include/
 
 BINARIES = main
-DEPS = main.cxx ../include/snn.cxx ../include/cfgfile.cxx ../include/snnliaf.cxx ../include/snnliafdt.cxx ../include/snnaeif.cxx
+DEPS = main.cxx ../include/cfgfile.cxx ../include/snn/snn.cxx ../include/snn/snnliaf.cxx ../include/snn/snnliafdt.cxx ../include/snn/snnaeif.cxx ../include/snn/snnsconn.cxx ../include/snn/snnaconn.cxx ../include/snn/snnstdpconn.cxx
 
 ## - - - - - - - - - - - - - - - - - - - -
 
