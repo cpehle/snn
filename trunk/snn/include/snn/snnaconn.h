@@ -32,10 +32,14 @@ class ASynapse: public Synapse {
 
 class AProjection: public Projection {
 	public:
-		AProjection();
+		AProjection(AnalogArray* Pre, Layer* Post);
+		AnalogArray* pre;
+		Layer* post;
 		void add_synapse();
 		void add_synapse(double* pPre, double* PostInput);
 		void add_synapse(double* pPre, double* PostInput, double weight);
+		int connect_topographic();
+		int connect_full();
 		int configure(CfgLineItems line, bool verbose);
 };
 

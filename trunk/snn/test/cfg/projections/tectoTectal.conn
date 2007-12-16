@@ -1,4 +1,5 @@
-start projection tectotectal ssynapse tectum ni
+start projection tectotectal ssynapse tectum tectum
 weight 1.0
-geometry lateral 5
+delay 0
+connect topographic
 end projection tectotectal ssynapse

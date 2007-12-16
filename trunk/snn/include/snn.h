@@ -22,6 +22,9 @@
  * - add error checking
  * - setup general cfg for snn
  * - setup single line neuron creation
+ * - setup input and output
+ * - document snn.configure
+ * - convert Analog pre to void pointer? OR make multiple AConn (ala template class?)
 */
 
 /// SNN
@@ -33,12 +36,14 @@ class SNN {
 		int process_cfg_file(std::string filename = "net.cfg", bool verbose = false);
 		int add_layer(CfgLineItems cfgLine);
 		int add_projection(CfgLineItems cfgLine);
+		int add_analog(CfgLineItems cfgLine);
 		int get_layer_index(std::string id);
 		int get_projection_index(std::string id);
+		int get_analog_index(std::string id);
 		
 		std::vector<Layer*> layers;
 		std::vector<Projection*> projections;
-//		std::vector<AnalogArray*> analogs;
+		std::vector<AnalogArray*> analogs;
 		
 		void run_network(int timeSteps = 1) { for (int i = 0; i < timeSteps; i++) {step();}; };
 		void step();

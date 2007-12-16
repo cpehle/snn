@@ -92,14 +92,32 @@ class SNeuron {
 /**
 	This may work much better using a Template class
 */
-template <typename T>
+enum DataType {
+	FLOAT,
+	DOUBLE,
+	CHAR,
+	UCHAR,
+	INT
+};
+
 class AnalogArray {
 	public:
-		T* data;
+		void* data; // this can be pointed at anything
 		int width;
 		int height;
 		int depth;
 		std::string id;
+		DataType type;
+		SNeuron* get_neuron(int x) {
+		
+			return neurons.at(x);
+		};
+		SNeuron* get_neuron(int x, int y) {
+			return neurons.at(x+y*width);
+		};
+		SNeuron* get_neuron(int x, int y, int z) {
+			return neurons.at(x+y*width+z*width*height);
+		};
 };
 
 /// Abstract layer base class
@@ -123,7 +141,7 @@ class Layer {
 		/// functions to return a specific neuron based on either a 1-d 2-d or 3-d call
 		SNeuron* get_neuron(int x) { return neurons.at(x); };
 		SNeuron* get_neuron(int x, int y) { return neurons.at(x+y*width); };
-		SNeuron* get_neuron(int x, int y, int z) { return neurons.at(x+y*width+z*height); };
+		SNeuron* get_neuron(int x, int y, int z) { return neurons.at(x+y*width+z*width*height); };
 		void add_n_neurons(int n) { for (int i = 0; i < n; i++) { add_neuron(); }; };
 		virtual void add_neuron() = 0;
 		/// configuration of layer
@@ -169,11 +187,11 @@ class Projection {
 		double commonWeight;
 /*		Synapse* get_synapse(int x) { return synapses.at(x); };
 		Synapse* get_synapse(int x, int y) { return synapses.at(x+y*width); };
-		Synapse* get_synapse(int x, int y, int z) { return synapses.at(x+y*width+z*height); }; */
+		Synapse* get_synapse(int x, int y, int z) { return synapses.at(x+y*width+z*height); };
 		int connect_topographic();
 		int connect_divergent();
 		int connect_convergent();
-		int connect_full();
+		int connect_full(); */
 		virtual void add_synapse() = 0;
 		virtual int configure(CfgLineItems line, bool verbose) = 0;
 		void step() { for(int i=0; i < synapses.size(); i++){ synapses[i]->step(); }; };

@@ -1,11 +1,13 @@
 #include "snnaconn.h"
 
-AProjection::AProjection() {
+AProjection::AProjection(AnalogArray* Pre, Layer* Post) {
 	id="";
 /*	width=0;
 	height=0;
 	depth=0; */
 	commonWeight = 1.0;
+	pre = Pre;
+	post = Post;
 }
 
 void AProjection::add_synapse() {
@@ -16,6 +18,26 @@ void AProjection::add_synapse(double* pPre, double* PostInput) {
 }
 void AProjection::add_synapse(double* pPre, double* PostInput, double weight) {
 	synapses.push_back(new ASynapse(pPre,PostInput,weight));
+}
+
+int AProjection::connect_topographic() {
+	// check that layers are same size
+	if ((pre->width == post->width) && (pre->height == post->height) && (pre->depth == post->depth)) {
+		int count = 0;
+		for (int z = 0; z < pre->depth; z++) {
+			for (int y = 0; y < pre->height; y++) {
+				for (int x = 0; x < pre->width; x++) {
+					//int index = x + y*pre->width + z*pre->height;
+					add_synapse(pre->get_neuron(x,y,z)->getSpikeActPtr(),post->get_neuron(x,y,z)->getInputPtr(), commonWeight);
+					count++;
+				}
+			}
+		}
+		return count;
+	} else {
+		// sizes do NOT agree
+		return 0; // return number of synapses made
+	}
 }
 
 /// Parse config file line
