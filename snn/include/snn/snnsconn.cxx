@@ -7,8 +7,8 @@ SProjection::SProjection(Layer* PreLayer, Layer* PostLayer) {
 	depth=0; */
 	commonWeight = 1.0;
 	commonDelay = 0;
-	Pre = PreLayer;
-	Post = PostLayer;
+	pre = PreLayer;
+	post = PostLayer;
 }
 
 void SProjection::add_synapse() {
@@ -26,15 +26,57 @@ void SProjection::add_synapse(unsigned int* PreSpiking, double* PostInput, doubl
 	synapses.push_back(new SSynapse(PreSpiking,PostInput,weight,iDelay));
 }
 
+int SProjection::connect_topographic() {
+	// check that layers are same size
+	if ((pre->width == post->width) && (pre->height == post->height) && (pre->depth == post->depth)) {
+		int count = 0;
+		for (int z = 0; z < pre->depth; z++) {
+			for (int y = 0; y < pre->height; y++) {
+				for (int x = 0; x < pre->width; x++) {
+					//int index = x + y*pre->width + z*pre->height;
+					add_synapse(pre->get_neuron(x,y,z)->getSpikeActPtr(),post->get_neuron(x,y,z)->getInputPtr(), commonWeight, commonDelay);
+					count++;
+				}
+			}
+		}
+		return count;
+	} else {
+		// sizes do NOT agree
+		return 0; // return number of synapses made
+	}
+}
+
+int SProjection::connect_full() {
+	// check that layers are same size
+	int count = 0;
+	for (int z = 0; z < pre->depth; z++) {
+		for (int y = 0; y < pre->height; y++) {
+			for (int x = 0; x < pre->width; x++) {
+				for (int postZ = 0; postZ < post->depth; postZ++) {
+					for (int postY = 0; postY < post->height; postY++) {
+						for (int postX = 0; postX < post->width; postX++) {
+							add_synapse(pre->get_neuron(x,y,z)->getSpikeActPtr(),post->get_neuron(postX,postY,postZ)->getInputPtr(), commonWeight, commonDelay);
+							count++;
+						}
+					}
+				}
+			}
+		}
+	}
+	return count; // return number of synapses made
+}
+
 /// Parse config file line
 /**
 	Valid lines are:
 	- \b delay : sets delay (commonDelay)
 	- \b weight : sets weight (commonWeight)
-	- \b width : sets layer width, this is the only necessary parameter
-	- \b height : sets layer height, defaults to 1
-	- \b depth : sets layer depth, defaults to 1
-	- \b make : constructs the neurons using the common<X> parameters assigned above
+	- \b connect <type> : connects the pre and post layers with a connection type:
+		- \b topographic : point-to-point
+		- \b full : every neuron to every neuron
+		- \b divergent <sigma> : max = sigma * 3 (not implemented)
+		- \b convergent <sigma> : max = sigma * 3 (not implemented)
+
 	need to add error checking and allow for 'manual' creation of neurons
 	\param line : vector of strings containing items of a configuration line
 	\param verbose : set true if you want lots of output
@@ -81,7 +123,27 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			if (verbose) std::cout << "\tset depth to " << depth << "\n";
 			return 0;
 		} */
-	} else if (line->at(0) == "make") {
+	} else if (line->at(0) == "connect") {
+		if (line->at(1) == "topographic") {
+			int returnValue = connect_topographic();
+			if (verbose) std::cout << "\tconnected topographically, made " << returnValue << " synapses\n";
+			if (returnValue > 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (line->at(1) == "full") {
+			int returnValue = connect_full();
+			if (verbose) std::cout << "\tconnected fully, made " << returnValue << " synapses\n";
+			if (returnValue > 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (line->at(1) == "divergent") {
+		} else if (line->at(1) == "convergent") {
+		} else {
+		}
 		// make neurons
 		// check if dimensions have been set
 /*		if (width == 0) {

@@ -26,7 +26,7 @@ int SNN::add_projection(CfgLineItems cfgLine) {
 	if (cfgLine->at(3) == "ssynapse") {
 		// get layer : &layers.at(get_layer_index(cfgLine->at(4)))
 		// get layer : &layers.at(get_layer_index(cfgLine->at(5)))
-		if (cfgLine->size() < 6) {
+		if (cfgLine->size() == 6) {
 			projections.push_back(new SProjection(
 				layers.at(get_layer_index(cfgLine->at(4))),
 				layers.at(get_layer_index(cfgLine->at(5)))
@@ -49,10 +49,40 @@ int SNN::add_projection(CfgLineItems cfgLine) {
 	}
 }
 
+int SNN::add_analog(CfgLineItems cfgLine) {
+	if (cfgLine->size() == 3) {
+		analogs.push_back(new AnalogArray);
+		AnalogArray * temp = analogs.at(projections.size()-1);
+		temp->id = cfgLine->at(1);
+		if (cfgLine->at(2) == "float") {
+		} else if (cfgLine->at(2) == "int") {
+			temp->type = INT;
+			return 0;
+		} else if (cfgLine->at(2) == "double") {
+			temp->type = DOUBLE;
+			return 0;
+		} else if (cfgLine->at(2) == "uchar") {
+			temp->type = UCHAR;
+			return 0;
+		} else if (cfgLine->at(2) == "char") {
+			temp->type = CHAR;
+			return 0;
+		} else if (cfgLine->at(2) == "float") {
+			temp->type = FLOAT;
+			return 0;
+		} else {
+			return 1;
+		}
+	} else {
+		return 1;
+	}
+}
+
 /// Process configuration file
 /**
  return 0 if all is well
  any other return means error!
+ Document this!!
  */
 int SNN::process_cfg_file(std::string filename, bool verbose) {
 	CfgFile myCfg(filename);
@@ -61,7 +91,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 		if ((myItems->size() == 2) && (myItems->at(0) == "import")) {
 			if (verbose) std::cout << "entering " << myItems->at(1) << "\n";
 			this->process_cfg_file(myItems->at(1),verbose);
-		} else if ((myItems->size() == 4) && (myItems->at(0) == "start")) { // in a start statement
+		} else if ((myItems->at(0) == "start")) { // in a start statement
 			// each layer definition starts with 'start layer <id> <type>' and ends with 'end layer <id> <type>'
 			if (myItems->at(1) == "layer") {
 				// make layer of id = myItems->at(2) and type = myItems->at(3)
@@ -77,6 +107,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 				// check if id & type agree?
 			} else if (myItems->at(1) == "projection") {
 				// make projection of id = myItems->at(2) and type = myItems->at(3)
+				if (verbose) std::cout << "adding projection\n";
 				if (add_projection(myItems)) return 1;
 				int projectionIndex = projections.size() -1;
 				if (verbose) std::cout << "making projection " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << projectionIndex << "\n";
@@ -92,6 +123,10 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 //				std::cout << myItems->at(i) << " ";
 //			}
 //			std::cout << "\n";
+		} else if ((myItems->at(0) == "analog")) {
+			if (add_analog(myItems)) return 1;
+			// analog <id> <type>
+		} else if ((myItems->at(0) == "timesteps")) {
 		}
 		myCfg.advance();
 	}
@@ -109,12 +144,20 @@ int SNN::get_projection_index(std::string id) {
 	}
 }
 
+int SNN::get_analog_index(std::string id) {
+	for (int i=0; i < analogs.size(); i++) {
+		if (analogs[i]->id == id) return i;
+	}
+}
+
 void SNN::step () {
+	// inputs
 	for (int i = 0; i < layers.size(); i++) {
 		layers[i]->step();
 	}
 	for (int i = 0; i < projections.size(); i++) {
 		projections[i]->step();
 	}
-	std::cout<< "stepped\n";
+	// outputs
+//	std::cout<< "stepped\n";
 }

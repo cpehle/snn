@@ -45,13 +45,15 @@ class SSynapse: public Synapse {
 class SProjection: public Projection {
 	public:
 		SProjection(Layer* PreLayer, Layer* PostLayer);
-		Layer* Pre;
-		Layer* Post;
+		Layer* pre;
+		Layer* post;
 		unsigned int commonDelay;
 		void add_synapse();
 		void add_synapse(unsigned int* PreSpiking, double* PostInput);
 		void add_synapse(unsigned int* PreSpiking, double* PostInput, double weight);
 		void add_synapse(unsigned int* PreSpiking, double* PostInput, double weight, unsigned int iDelay);
+		int connect_topographic();
+		int connect_full();
 		int configure(CfgLineItems line, bool verbose);
 };
 
