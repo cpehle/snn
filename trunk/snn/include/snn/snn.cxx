@@ -37,7 +37,10 @@ int SNN::add_projection(CfgLineItems cfgLine) {
 			return 1;
 		}
 	} else if (cfgLine->at(3) == "asynapse") {
-		projections.push_back(new AProjection);
+		projections.push_back(new AProjection(
+			analogs.at(get_analog_index(cfgLine->at(4))),
+			layers.at(get_layer_index(cfgLine->at(5)))
+			));
 		projections.at(projections.size()-1)->id = cfgLine->at(2);
 		return 0;
 	} else if (cfgLine->at(3) == "stdpsynapse") {
@@ -49,33 +52,43 @@ int SNN::add_projection(CfgLineItems cfgLine) {
 	}
 }
 
-int SNN::add_analog(CfgLineItems cfgLine) {
-	if (cfgLine->size() == 3) {
-		analogs.push_back(new AnalogArray);
-		AnalogArray * temp = analogs.at(projections.size()-1);
-		temp->id = cfgLine->at(1);
-		if (cfgLine->at(2) == "float") {
-		} else if (cfgLine->at(2) == "int") {
-			temp->type = INT;
-			return 0;
-		} else if (cfgLine->at(2) == "double") {
-			temp->type = DOUBLE;
-			return 0;
-		} else if (cfgLine->at(2) == "uchar") {
-			temp->type = UCHAR;
-			return 0;
-		} else if (cfgLine->at(2) == "char") {
-			temp->type = CHAR;
-			return 0;
-		} else if (cfgLine->at(2) == "float") {
-			temp->type = FLOAT;
-			return 0;
-		} else {
-			return 1;
-		}
-	} else {
-		return 1;
-	}
+//int SNN::add_analog(CfgLineItems cfgLine) {
+//	if (cfgLine->size() == 3) {
+//		analogs.push_back(new AnalogArray);
+//		AnalogArray * temp = analogs.at(projections.size()-1);
+//		temp->id = cfgLine->at(1);
+//		if (cfgLine->at(2) == "int") {
+//			temp->type = INT;
+//			return 0;
+//		} else if (cfgLine->at(2) == "double") {
+//			temp->type = DOUBLE;
+//			return 0;
+//		} else if (cfgLine->at(2) == "uchar") {
+//			temp->type = UCHAR;
+//			return 0;
+//		} else if (cfgLine->at(2) == "char") {
+//			temp->type = CHAR;
+//			return 0;
+//		} else if (cfgLine->at(2) == "float") {
+//			temp->type = FLOAT;
+//			return 0;
+//		} else {
+//			return 1;
+//		}
+//	} else {
+//		return 1;
+//	}
+//}
+
+int SNN::add_analog( std::string id, DataType type, int width, int height, int depth) {
+	analogs.push_back(new AnalogArray);
+	AnalogArray * temp = analogs.at(analogs.size()-1);
+	temp->id = id;
+	temp->type = type;
+	temp->width = width;
+	temp->height = height;
+	temp->depth = depth;
+	return 0;
 }
 
 /// Process configuration file
@@ -123,9 +136,9 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 //				std::cout << myItems->at(i) << " ";
 //			}
 //			std::cout << "\n";
-		} else if ((myItems->at(0) == "analog")) {
-			if (add_analog(myItems)) return 1;
-			// analog <id> <type>
+//		} else if ((myItems->at(0) == "analog")) {
+//			//if (add_analog(myItems)) return 1;
+//			// analog <id> <type>
 		} else if ((myItems->at(0) == "timesteps")) {
 		}
 		myCfg.advance();
@@ -155,7 +168,9 @@ void SNN::step () {
 	for (int i = 0; i < layers.size(); i++) {
 		layers[i]->step();
 	}
+//	std::cout << "layers stepped\n";
 	for (int i = 0; i < projections.size(); i++) {
+//		std::cout << "stepping " << projections[i]->id << "\n";
 		projections[i]->step();
 	}
 	// outputs

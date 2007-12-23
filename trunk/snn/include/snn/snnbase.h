@@ -100,6 +100,8 @@ enum DataType {
 	INT
 };
 
+typedef unsigned char uchar;
+
 class AnalogArray {
 	public:
 		void* data; // this can be pointed at anything
@@ -108,15 +110,37 @@ class AnalogArray {
 		int depth;
 		std::string id;
 		DataType type;
-		SNeuron* get_neuron(int x) {
-		
-			return neurons.at(x);
+		void* get_value(int x) {
+			switch (type) {
+				case FLOAT : {
+					float* tempFloat = (float*)data;
+					return (void*)&tempFloat[x];
+					break; }
+				case DOUBLE : {
+					double* tempDouble = (double*)data;
+					return (void*)&tempDouble[x];
+					break; }
+				case CHAR : {
+					char* tempChar = (char*)data;
+					return (void*)&tempChar[x];
+					break; }
+				case UCHAR : {
+					uchar* tempUchar = (uchar*)data;
+					return (void*)&tempUchar[x];
+					break; }
+				case INT : {
+					int* tempInt = (int*)data;
+					return (void*)&tempInt[x];
+					break; }
+				default :
+					return NULL;
+			};
 		};
-		SNeuron* get_neuron(int x, int y) {
-			return neurons.at(x+y*width);
+		void* get_value(int x, int y) {
+			get_value(x + y*width);
 		};
-		SNeuron* get_neuron(int x, int y, int z) {
-			return neurons.at(x+y*width+z*width*height);
+		void* get_value(int x, int y, int z) {
+			get_value(x + y*width + z*width*height);
 		};
 };
 

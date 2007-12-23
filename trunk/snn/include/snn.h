@@ -24,7 +24,7 @@
  * - setup single line neuron creation
  * - setup input and output
  * - document snn.configure
- * - convert Analog pre to void pointer? OR make multiple AConn (ala template class?)
+ * - AProjection - split up into separate data types?
 */
 
 /// SNN
@@ -36,7 +36,8 @@ class SNN {
 		int process_cfg_file(std::string filename = "net.cfg", bool verbose = false);
 		int add_layer(CfgLineItems cfgLine);
 		int add_projection(CfgLineItems cfgLine);
-		int add_analog(CfgLineItems cfgLine);
+		//int add_analog(CfgLineItems cfgLine);
+		int add_analog( std::string id, DataType type, int width, int height=1, int depth=1);
 		int get_layer_index(std::string id);
 		int get_projection_index(std::string id);
 		int get_analog_index(std::string id);
