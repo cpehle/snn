@@ -27,8 +27,8 @@ int AProjection::connect_topographic() {
 		for (int z = 0; z < pre->depth; z++) {
 			for (int y = 0; y < pre->height; y++) {
 				for (int x = 0; x < pre->width; x++) {
-					//int index = x + y*pre->width + z*pre->height;
-					add_synapse(pre->get_neuron(x,y,z)->getSpikeActPtr(),post->get_neuron(x,y,z)->getInputPtr(), commonWeight);
+					/// NEED TO FIX THIS
+					add_synapse((double*)(pre->get_value(x,y,z)),post->get_neuron(x,y,z)->getInputPtr(), commonWeight);
 					count++;
 				}
 			}
@@ -38,6 +38,10 @@ int AProjection::connect_topographic() {
 		// sizes do NOT agree
 		return 0; // return number of synapses made
 	}
+}
+
+int AProjection::connect_full() {
+	return 1;
 }
 
 /// Parse config file line
@@ -86,7 +90,27 @@ int AProjection::configure(CfgLineItems line, bool verbose) {
 			if (verbose) std::cout << "\tset depth to " << depth << "\n";
 			return 0;
 		} */
-	} else if (line->at(0) == "make") {
+	} else if (line->at(0) == "connect") {
+		if (line->at(1) == "topographic") {
+			int returnValue = connect_topographic();
+			if (verbose) std::cout << "\tconnected topographically, made " << returnValue << " synapses\n";
+			if (returnValue > 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (line->at(1) == "full") {
+			int returnValue = connect_full();
+			if (verbose) std::cout << "\tconnected fully, made " << returnValue << " synapses\n";
+			if (returnValue > 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (line->at(1) == "divergent") {
+		} else if (line->at(1) == "convergent") {
+		} else {
+		}
 		// make neurons
 		// check if dimensions have been set
 /*		if (width == 0) {
