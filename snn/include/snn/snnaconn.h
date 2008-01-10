@@ -13,8 +13,9 @@ class ASynapse: public Synapse {
 		/**
 			Connects a presynaptic analog input (double) and postsynaptic neuron model
 		*/
-		ASynapse (double* pPre, double* PostInput, double weight = 1.0) {
+		ASynapse (DataType inputType, void* pPre, double* PostInput, double weight = 1.0) {
 //			std::cout << "analog input " << *pPre << "\n";
+			type = inputType;
 			ppreAnalog = pPre;
 			ppostInput = PostInput;
 			dweight = weight;
@@ -25,11 +26,47 @@ class ASynapse: public Synapse {
 		*/
 		void step () {
 //			std::cout << *ppreAnalog << "\n";
-			*ppostInput += *ppreAnalog * dweight;
+			switch (type) {
+				case FLOAT : {
+					float* tempFloat = (float*)ppreAnalog;
+					*ppostInput += *tempFloat * dweight;
+//					return (void*)&tempFloat[x];
+					break; }
+				case DOUBLE : {
+					double* tempDouble = (double*)ppreAnalog;
+					*ppostInput += *tempDouble * dweight;
+//					return (void*)&tempDouble[x];
+					break; }
+				case CHAR : {
+					char* tempChar = (char*)ppreAnalog;
+					/** \todo
+					 * - do I need this cast to an int?
+					*/
+					*ppostInput += (int)*tempChar * dweight;
+//					return (void*)&tempChar[x];
+					break; }
+				case UCHAR : {
+					uchar* tempUchar = (uchar*)ppreAnalog;
+					/** \todo
+					 * - do I need this cast to an int?
+					*/
+					*ppostInput += (int)*tempUchar * dweight;
+//					return (void*)&tempUchar[x];
+					break; }
+				case INT : {
+					int* tempInt = (int*)ppreAnalog;
+					*ppostInput += *tempInt * dweight;
+//					return (void*)&tempInt[x];
+					break; }
+				default :
+					std::cerr << "ERROR: no sensible type found\n";
+					//return NULL;
+			};
 		}
 	protected:
-		double* ppreAnalog;
+		void* ppreAnalog;
 		double* ppostInput;
+		DataType type;
 };
 
 class AProjection: public Projection {
@@ -37,9 +74,10 @@ class AProjection: public Projection {
 		AProjection(AnalogArray* Pre, Layer* Post);
 		AnalogArray* pre;
 		Layer* post;
+		DataType commonType;
 		void add_synapse();
-		void add_synapse(double* pPre, double* PostInput);
-		void add_synapse(double* pPre, double* PostInput, double weight);
+		void add_synapse(DataType inputType, void* pPre, double* PostInput);
+		void add_synapse(DataType inputType, void* pPre, double* PostInput, double weight);
 		int connect_topographic();
 		int connect_full();
 		int configure(CfgLineItems line, bool verbose);

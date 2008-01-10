@@ -102,6 +102,30 @@ enum DataType {
 
 typedef unsigned char uchar;
 
+extern DataType atot (const char* cstr);
+//	DataType returnType;
+//	if (cstr == "FLOAT") {
+//		returnType = FLOAT;
+//		return returnType;
+//	} else if (cstr == "DOUBLE") {
+//		returnType = DOUBLE;
+//		return returnType;
+//	} else if (cstr == "CHAR") {
+//		returnType = CHAR;
+//		return returnType;
+//	} else if (cstr == "UCHAR") {
+//		returnType = UCHAR;
+//		return returnType;
+//	} else if (cstr == "INT") {
+//		returnType = INT;
+//		return returnType;
+//	} else {
+//		std::cerr << "ERROR in atot of "<< cstr << "\n";
+//		returnType = INT;
+//		return returnType;
+//	};
+//};
+
 class AnalogArray {
 	public:
 		void* data; // this can be pointed at anything

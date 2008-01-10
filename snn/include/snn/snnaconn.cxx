@@ -8,16 +8,17 @@ AProjection::AProjection(AnalogArray* Pre, Layer* Post) {
 	commonWeight = 1.0;
 	pre = Pre;
 	post = Post;
+	commonType = Pre->type;
 }
 
 void AProjection::add_synapse() {
 }
 
-void AProjection::add_synapse(double* pPre, double* PostInput) {
-	synapses.push_back(new ASynapse(pPre,PostInput));
+void AProjection::add_synapse(DataType inputType, void* pPre, double* PostInput) {
+	synapses.push_back(new ASynapse(inputType,pPre,PostInput));
 }
-void AProjection::add_synapse(double* pPre, double* PostInput, double weight) {
-	synapses.push_back(new ASynapse(pPre,PostInput,weight));
+void AProjection::add_synapse(DataType inputType, void* pPre, double* PostInput, double weight) {
+	synapses.push_back(new ASynapse(inputType,pPre,PostInput,weight));
 }
 
 int AProjection::connect_topographic() {
@@ -28,7 +29,7 @@ int AProjection::connect_topographic() {
 			for (int y = 0; y < pre->height; y++) {
 				for (int x = 0; x < pre->width; x++) {
 					/// NEED TO FIX THIS
-					add_synapse((double*)(pre->get_value(x,y,z)),post->get_neuron(x,y,z)->getInputPtr(), commonWeight);
+					add_synapse(commonType, pre->get_value(x,y,z),post->get_neuron(x,y,z)->getInputPtr(), commonWeight);
 					count++;
 				}
 			}
@@ -66,6 +67,15 @@ int AProjection::configure(CfgLineItems line, bool verbose) {
 			if (verbose) std::cout << "\tset commonWeight to " << commonWeight << "\n";
 			return 0;
 		}
+//	} else if (line->at(0) == "type") {
+//		if (synapses.size() > 0) {
+//			return 1;
+//		} else {
+//			// TODO make conversion from string to DATATYPE
+//			commonType = atot(line->at(1).c_str());
+//			if (verbose) std::cout << "\tNOTDONE: set commonType to " << line->at(1).c_str() << "\n";
+//			return 0;
+//		}
 /*	} else if (line->at(0) == "width") {
 		if (synapses.size() > 0) {
 			return 1;
