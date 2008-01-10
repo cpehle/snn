@@ -4,7 +4,8 @@
 #CXXFLAGS_LOCAL = -I. -I/home/brett/src/include
 #CXXFLAGS = ${CXXFLAGS_STANDARD} ${CXXFLAGS_LOCAL}
 #PNGFLAGS = `freetype-config --cflags` -I/usr/include -L/usr/lib -lpng -lpngwriter -lz -lfreetype
-#OPENCVFLAGS = `pkg-config --libs opencv` `pkg-config --cflags opencv`
+OPENCVLIBS = `pkg-config --libs opencv`
+OPENCVFLAGS = `pkg-config --cflags opencv`
 LOCAL = -I../include/
 
 BINARIES = main
@@ -23,8 +24,7 @@ all: ${BINARIES}
 
 # main file
 main: ${OBJFILES}
-	${CXX} ${OBJFILES} -o ${@} ${OPENCVFLAGS}
-#	-rm -f ${OBJFILES}
+	${CXX} ${OBJFILES} -o ${@} ${OPENCVFLAGS} ${OPENCVLIBS}
 
 ../objectFiles/main.o: ../include/snn.h main.cxx
 	${CXX} -c main.cxx -o ${@} ${LOCAL} ${OPENCVFLAGS}

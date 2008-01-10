@@ -102,7 +102,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 	CfgLineItems myItems = myCfg.get_data_ptr();
 	while (! myCfg.get_cfg_eof()) {
 		if ((myItems->size() == 2) && (myItems->at(0) == "import")) {
-			if (verbose) std::cout << "entering " << myItems->at(1) << "\n";
+			if (verbose) std::cerr << "entering " << myItems->at(1) << "\n";
 			this->process_cfg_file(myItems->at(1),verbose);
 		} else if ((myItems->at(0) == "start")) { // in a start statement
 			// each layer definition starts with 'start layer <id> <type>' and ends with 'end layer <id> <type>'
@@ -110,7 +110,7 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 				// make layer of id = myItems->at(2) and type = myItems->at(3)
 				if (add_layer(myItems)) return 1;
 				int layerIndex = layers.size() - 1;
-				if (verbose) std::cout << "making layer " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << layerIndex << "\n";
+				if (verbose) std::cerr << "making layer " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << layerIndex << "\n";
 				// keep feeding lines until "end layer <id> <type>"
 				myCfg.advance();
 				while ((myItems->at(0) != "end") && (! myCfg.get_cfg_eof())) {
@@ -120,10 +120,10 @@ int SNN::process_cfg_file(std::string filename, bool verbose) {
 				// check if id & type agree?
 			} else if (myItems->at(1) == "projection") {
 				// make projection of id = myItems->at(2) and type = myItems->at(3)
-				if (verbose) std::cout << "adding projection\n";
+				if (verbose) std::cerr << "adding projection\n";
 				if (add_projection(myItems)) return 1;
 				int projectionIndex = projections.size() -1;
-				if (verbose) std::cout << "making projection " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << projectionIndex << "\n";
+				if (verbose) std::cerr << "making projection " << myItems->at(2) << " of type " << myItems->at(3) << " at index " << projectionIndex << "\n";
 				// keep feeding lines until "end projection <id> <type>"
 				myCfg.advance();
 				while ((myItems->at(0) != "end") && (! myCfg.get_cfg_eof())) {

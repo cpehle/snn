@@ -88,7 +88,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonDelay = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonDelay to " << commonDelay << "\n";
+			if (verbose) std::cerr << "\tset commonDelay to " << commonDelay << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "weight") {
@@ -96,7 +96,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonWeight = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonWeight to " << commonWeight << "\n";
+			if (verbose) std::cerr << "\tset commonWeight to " << commonWeight << "\n";
 			return 0;
 		}
 /*	} else if (line->at(0) == "width") {
@@ -104,7 +104,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			width = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset width to " << width << "\n";
+			if (verbose) std::cerr << "\tset width to " << width << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "height") {
@@ -112,7 +112,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			height = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset height to " << height << "\n";
+			if (verbose) std::cerr << "\tset height to " << height << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "depth") {
@@ -120,13 +120,13 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			depth = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset depth to " << depth << "\n";
+			if (verbose) std::cerr << "\tset depth to " << depth << "\n";
 			return 0;
 		} */
 	} else if (line->at(0) == "connect") {
 		if (line->at(1) == "topographic") {
 			int returnValue = connect_topographic();
-			if (verbose) std::cout << "\tconnected topographically, made " << returnValue << " synapses\n";
+			if (verbose) std::cerr << "\tconnected topographically, made " << returnValue << " synapses\n";
 			if (returnValue > 0) {
 				return 0;
 			} else {
@@ -134,7 +134,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			}
 		} else if (line->at(1) == "full") {
 			int returnValue = connect_full();
-			if (verbose) std::cout << "\tconnected fully, made " << returnValue << " synapses\n";
+			if (verbose) std::cerr << "\tconnected fully, made " << returnValue << " synapses\n";
 			if (returnValue > 0) {
 				return 0;
 			} else {
@@ -154,7 +154,7 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 			for (int n = 0; n < nNeurons; n++) {
 				add_neuron(commonThresh, commonR, commonC);
 			}
-			if (verbose) std::cout << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
+			if (verbose) std::cerr << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
 			return 0;
 		*/
 //		}
@@ -162,12 +162,12 @@ int SProjection::configure(CfgLineItems line, bool verbose) {
 		return 1;
 		//error unkown line
 	}
-//	std::cout << "\t in LiafMsLayer ";
+//	std::cerr << "\t in LiafMsLayer ";
 //	for (unsigned int i = 0; i < line->size(); i++) {
-//		std::cout << line->at(i) << " ";
+//		std::cerr << line->at(i) << " ";
 //		//line->at(i) == "foo"
 //	}
-//	std::cout << "\n";
+//	std::cerr << "\n";
 	// if A.O.K. return 0, else something else
 //	return 0;
 }
