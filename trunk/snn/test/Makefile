@@ -9,10 +9,10 @@ LOCAL = -I../include/
 
 BINARIES = main
 
-OBJFILES = main.o snn.o cfgfile.o snnliaf.o snnliafdt.o snnaeif.o snnsconn.o snnaconn.o snnstdpconn.o snnbase.o
+OBJFILES = ../objectFiles/main.o ../objectFiles/snn.o ../objectFiles/cfgfile.o ../objectFiles/snnliaf.o ../objectFiles/snnliafdt.o ../objectFiles/snnaeif.o ../objectFiles/snnsconn.o ../objectFiles/snnaconn.o ../objectFiles/snnstdpconn.o ../objectFiles/snnbase.o
 
-SNNDEPS = cfgfile.o snnliaf.o snnliafdt.o snnaeif.o snnsconn.o snnaconn.o snnstdpconn.o
-SNNCXXS = ../include/cfgfile.cxx ../include/snn/snn.cxx ../include/snn/snnliaf.cxx ../include/snn/snnliafdt.cxx ../include/snn/snnaeif.cxx ../include/snn/snnsconn.cxx ../include/snn/snnaconn.cxx ../include/snn/snnstdpconn.cxx..
+#SNNDEPS = cfgfile.o snnliaf.o snnliafdt.o snnaeif.o snnsconn.o snnaconn.o snnstdpconn.o
+#SNNCXXS = ../include/cfgfile.cxx ../include/snn/snn.cxx ../include/snn/snnliaf.cxx ../include/snn/snnliafdt.cxx ../include/snn/snnaeif.cxx ../include/snn/snnsconn.cxx ../include/snn/snnaconn.cxx ../include/snn/snnstdpconn.cxx..
 SNNHEADERS = ../include/cfgfile.h ../include/snn/snnliaf.h ../include/snn/snnliafdt.h ../include/snn/snnaeif.h ../include/snn/snnsconn.h ../include/snn/snnaconn.h ../include/snn/snnstdpconn.h ../include/snn/snnbase.h
 
 DEPS = main.cxx
@@ -24,40 +24,40 @@ all: ${BINARIES}
 # main file
 main: ${OBJFILES}
 	${CXX} ${OBJFILES} -o ${@}
-	-rm -f ${OBJFILES}
+#	-rm -f ${OBJFILES}
 
-main.o: ../include/snn.h main.cxx
+../objectFiles/main.o: ../include/snn.h main.cxx
 	${CXX} -c main.cxx -o ${@} ${LOCAL}
 
 # configuration file reading
-cfgfile.o: ../include/cfgfile.h ../include/cfgfile.cxx
+../objectFiles/cfgfile.o: ../include/cfgfile.h ../include/cfgfile.cxx
 	${CXX} -c ../include/cfgfile.cxx -o ${@} ${LOCAL}
 
 # snn package
-snn.o: ${SNNHEADERS} ../include/snn/snn.cxx
+../objectFiles/snn.o: ${SNNHEADERS} ../include/snn/snn.cxx
 	${CXX} -c ../include/snn/snn.cxx -o ${@} ${LOCAL}
 
-snnbase.o: ../include/snn/snnbase.h ../include/snn/snnbase.cxx
+../objectFiles/snnbase.o: ../include/snn/snnbase.h ../include/snn/snnbase.cxx
 	${CXX} -c ../include/snn/snnbase.cxx -o ${@} ${LOCAL}
 
 # ======================
 
-snnliaf.o: ../include/snn/snnliaf.h ../include/snn/snnliaf.cxx
+../objectFiles/snnliaf.o: ../include/snn/snnliaf.h ../include/snn/snnliaf.cxx
 	${CXX} -c ../include/snn/snnliaf.cxx -o ${@} ${LOCAL}
 
-snnliafdt.o: ../include/snn/snnliafdt.h ../include/snn/snnliafdt.cxx
+../objectFiles/snnliafdt.o: ../include/snn/snnliafdt.h ../include/snn/snnliafdt.cxx
 	${CXX} -c ../include/snn/snnliafdt.cxx -o ${@} ${LOCAL}
 
-snnaeif.o: ../include/snn/snnaeif.h ../include/snn/snnaeif.cxx
+../objectFiles/snnaeif.o: ../include/snn/snnaeif.h ../include/snn/snnaeif.cxx
 	${CXX} -c ../include/snn/snnaeif.cxx -o ${@} ${LOCAL}
 
-snnsconn.o: ../include/snn/snnsconn.h ../include/snn/snnsconn.cxx
+../objectFiles/snnsconn.o: ../include/snn/snnsconn.h ../include/snn/snnsconn.cxx
 	${CXX} -c ../include/snn/snnsconn.cxx -o ${@} ${LOCAL}
 
-snnaconn.o: ../include/snn/snnaconn.h ../include/snn/snnaconn.cxx
+../objectFiles/snnaconn.o: ../include/snn/snnaconn.h ../include/snn/snnaconn.cxx
 	${CXX} -c ../include/snn/snnaconn.cxx -o ${@} ${LOCAL}
 
-snnstdpconn.o: ../include/snn/snnstdpconn.h ../include/snn/snnstdpconn.cxx
+../objectFiles/snnstdpconn.o: ../include/snn/snnstdpconn.h ../include/snn/snnstdpconn.cxx
 	${CXX} -c ../include/snn/snnstdpconn.cxx -o ${@} ${LOCAL}
 
 # OLD
@@ -65,4 +65,4 @@ snnstdpconn.o: ../include/snn/snnstdpconn.h ../include/snn/snnstdpconn.cxx
 #	${CXX} ${CXXFLAGS} -g ${DEPS} -o ${@} ${OPENCVFLAGS} ${LOCAL}
 
 clean:
-	-rm -f ${BINARIES} *.o
+	-rm -f ${BINARIES} ${OBJFILES}
