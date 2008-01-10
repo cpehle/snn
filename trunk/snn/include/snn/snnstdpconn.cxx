@@ -38,7 +38,7 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonWeight = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonWeight to " << commonWeight << "\n";
+			if (verbose) std::cerr << "\tset commonWeight to " << commonWeight << "\n";
 			return 0;
 		}
 /*	} else if (line->at(0) == "width") {
@@ -46,7 +46,7 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			width = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset width to " << width << "\n";
+			if (verbose) std::cerr << "\tset width to " << width << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "height") {
@@ -54,7 +54,7 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			height = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset height to " << height << "\n";
+			if (verbose) std::cerr << "\tset height to " << height << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "depth") {
@@ -62,7 +62,7 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			depth = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset depth to " << depth << "\n";
+			if (verbose) std::cerr << "\tset depth to " << depth << "\n";
 			return 0;
 		} */
 	} else if (line->at(0) == "make") {
@@ -76,7 +76,7 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 			for (int n = 0; n < nNeurons; n++) {
 				add_neuron(commonThresh, commonR, commonC);
 			}
-			if (verbose) std::cout << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
+			if (verbose) std::cerr << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
 			return 0;
 		*/
 //		}
@@ -84,12 +84,12 @@ int STDPProjection::configure(CfgLineItems line, bool verbose) {
 		return 1;
 		//error unkown line
 	}
-//	std::cout << "\t in LiafMsLayer ";
+//	std::cerr << "\t in LiafMsLayer ";
 //	for (unsigned int i = 0; i < line->size(); i++) {
-//		std::cout << line->at(i) << " ";
+//		std::cerr << line->at(i) << " ";
 //		//line->at(i) == "foo"
 //	}
-//	std::cout << "\n";
+//	std::cerr << "\n";
 	// if A.O.K. return 0, else something else
 //	return 0;
 }

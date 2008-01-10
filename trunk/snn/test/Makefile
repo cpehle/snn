@@ -7,27 +7,27 @@
 #OPENCVFLAGS = `pkg-config --libs opencv` `pkg-config --cflags opencv`
 LOCAL = -I../include/
 
-BINARIES = main
+BINARIES = test
 
-OBJFILES = ../objectFiles/main.o ../objectFiles/snn.o ../objectFiles/cfgfile.o ../objectFiles/snnliaf.o ../objectFiles/snnliafdt.o ../objectFiles/snnaeif.o ../objectFiles/snnsconn.o ../objectFiles/snnaconn.o ../objectFiles/snnstdpconn.o ../objectFiles/snnbase.o
+OBJFILES = ../objectFiles/test.o ../objectFiles/snn.o ../objectFiles/cfgfile.o ../objectFiles/snnliaf.o ../objectFiles/snnliafdt.o ../objectFiles/snnaeif.o ../objectFiles/snnsconn.o ../objectFiles/snnaconn.o ../objectFiles/snnstdpconn.o ../objectFiles/snnbase.o
 
 #SNNDEPS = cfgfile.o snnliaf.o snnliafdt.o snnaeif.o snnsconn.o snnaconn.o snnstdpconn.o
 #SNNCXXS = ../include/cfgfile.cxx ../include/snn/snn.cxx ../include/snn/snnliaf.cxx ../include/snn/snnliafdt.cxx ../include/snn/snnaeif.cxx ../include/snn/snnsconn.cxx ../include/snn/snnaconn.cxx ../include/snn/snnstdpconn.cxx..
 SNNHEADERS = ../include/cfgfile.h ../include/snn/snnliaf.h ../include/snn/snnliafdt.h ../include/snn/snnaeif.h ../include/snn/snnsconn.h ../include/snn/snnaconn.h ../include/snn/snnstdpconn.h ../include/snn/snnbase.h
 
-DEPS = main.cxx
+DEPS = test.cxx
 
 ## - - - - - - - - - - - - - - - - - - - -
 
 all: ${BINARIES}
 
-# main file
-main: ${OBJFILES}
-	${CXX} ${OBJFILES} -o ${@}
+# test file
+test: ${OBJFILES}
+	${CXX} ${OBJFILES} -o ${@} ${OPENCVFLAGS}
 #	-rm -f ${OBJFILES}
 
-../objectFiles/main.o: ../include/snn.h main.cxx
-	${CXX} -c main.cxx -o ${@} ${LOCAL}
+../objectFiles/test.o: ../include/snn.h test.cxx
+	${CXX} -c test.cxx -o ${@} ${LOCAL} ${OPENCVFLAGS}
 
 # configuration file reading
 ../objectFiles/cfgfile.o: ../include/cfgfile.h ../include/cfgfile.cxx
@@ -61,7 +61,7 @@ main: ${OBJFILES}
 	${CXX} -c ../include/snn/snnstdpconn.cxx -o ${@} ${LOCAL}
 
 # OLD
-#main: ${DEPS}
+#test: ${DEPS}
 #	${CXX} ${CXXFLAGS} -g ${DEPS} -o ${@} ${OPENCVFLAGS} ${LOCAL}
 
 clean:

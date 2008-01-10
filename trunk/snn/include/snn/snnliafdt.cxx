@@ -47,7 +47,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1; // error, trying to change common parameter after neurons were created
 		} else {
 			commonThresh = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonThresh to " << commonThresh << "\n";
+			if (verbose) std::cerr << "\tset commonThresh to " << commonThresh << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "tdecay") {
@@ -55,7 +55,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonThreshDecay = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonThreshDecay to " << commonThreshDecay << "\n";
+			if (verbose) std::cerr << "\tset commonThreshDecay to " << commonThreshDecay << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "tstep") {
@@ -63,7 +63,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonThreshStep = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonThreshStep to " << commonThreshStep << "\n";
+			if (verbose) std::cerr << "\tset commonThreshStep to " << commonThreshStep << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "r") {
@@ -71,7 +71,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonR = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonR to " << commonR << "\n";
+			if (verbose) std::cerr << "\tset commonR to " << commonR << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "c") {
@@ -79,7 +79,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonC = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonC to " << commonC << "\n";
+			if (verbose) std::cerr << "\tset commonC to " << commonC << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "width") {
@@ -87,7 +87,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			width = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset width to " << width << "\n";
+			if (verbose) std::cerr << "\tset width to " << width << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "height") {
@@ -95,7 +95,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			height = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset height to " << height << "\n";
+			if (verbose) std::cerr << "\tset height to " << height << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "depth") {
@@ -103,7 +103,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			depth = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset depth to " << depth << "\n";
+			if (verbose) std::cerr << "\tset depth to " << depth << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "make") {
@@ -116,7 +116,7 @@ int LiafDTMsLayer::configure(CfgLineItems line, bool verbose) {
 			for (int n = 0; n < nNeurons; n++) {
 				add_neuron(commonThresh, commonThreshDecay, commonThreshStep, commonR, commonC);
 			}
-			if (verbose) std::cout << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
+			if (verbose) std::cerr << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
 			return 0;
 		}
 	} else {

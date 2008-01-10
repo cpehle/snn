@@ -86,7 +86,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1; // error, trying to change common parameter after neurons were created
 		} else {
 			commonThresh = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonThresh to " << commonThresh << "\n";
+			if (verbose) std::cerr << "\tset commonThresh to " << commonThresh << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "bursting") {
@@ -94,7 +94,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonBursting = atob(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonBursting to " << commonBursting << "\n";
+			if (verbose) std::cerr << "\tset commonBursting to " << commonBursting << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "reset") {
@@ -102,7 +102,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			commonReset = atof(line->at(1).c_str());
-			if (verbose) std::cout << "\tset commonReset to " << commonReset << "\n";
+			if (verbose) std::cerr << "\tset commonReset to " << commonReset << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "width") {
@@ -110,7 +110,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			width = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset width to " << width << "\n";
+			if (verbose) std::cerr << "\tset width to " << width << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "height") {
@@ -118,7 +118,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			height = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset height to " << height << "\n";
+			if (verbose) std::cerr << "\tset height to " << height << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "depth") {
@@ -126,7 +126,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			return 1;
 		} else {
 			depth = atoi(line->at(1).c_str());
-			if (verbose) std::cout << "\tset depth to " << depth << "\n";
+			if (verbose) std::cerr << "\tset depth to " << depth << "\n";
 			return 0;
 		}
 	} else if (line->at(0) == "make") {
@@ -139,7 +139,7 @@ int AeifMsLayer::configure(CfgLineItems line, bool verbose) {
 			for (int n = 0; n < nNeurons; n++) {
 				add_neuron(commonThresh, commonBursting, commonReset);
 			}
-			if (verbose) std::cout << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
+			if (verbose) std::cerr << "\tMade " << nNeurons << " neurons in layer " << id << "\n";
 			return 0;
 		}
 	} else {

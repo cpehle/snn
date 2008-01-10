@@ -14,7 +14,7 @@ class ASynapse: public Synapse {
 			Connects a presynaptic analog input (double) and postsynaptic neuron model
 		*/
 		ASynapse (DataType inputType, void* pPre, double* PostInput, double weight = 1.0) {
-//			std::cout << "analog input " << *pPre << "\n";
+//			std::cerr << "analog input " << *pPre << "\n";
 			type = inputType;
 			ppreAnalog = pPre;
 			ppostInput = PostInput;
@@ -25,7 +25,7 @@ class ASynapse: public Synapse {
 			Multiplies analog input by weight value and adds result to the postsynaptic input
 		*/
 		void step () {
-//			std::cout << *ppreAnalog << "\n";
+//			std::cerr << *ppreAnalog << "\n";
 			switch (type) {
 				case FLOAT : {
 					float* tempFloat = (float*)ppreAnalog;

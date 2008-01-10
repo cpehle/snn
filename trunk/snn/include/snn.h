@@ -24,7 +24,6 @@
  * - setup single line neuron creation
  * - setup input and output
  * - document snn.configure
- * - AProjection - split up into separate data types?
 */
 
 /// SNN
