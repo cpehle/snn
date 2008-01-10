@@ -19,14 +19,19 @@ int main(int argc, char* argv[]) {
 */
 
 	SNN snn;
-	// make a1
-	if (snn.add_analog("a1",DOUBLE,10)) std::cout << "error building analog a1\n";
+	// make a1 : set type HERE NOT in the cfg file
+//	if (snn.add_analog("a1",DOUBLE,10)) std::cout << "error building analog a1\n";
+	if (snn.add_analog("a1",UCHAR,10)) std::cout << "error building analog a1\n";
 	std::cout << "making inputs\n";
-	double input[10];
+	uchar input[10];
+//	double input[10];
 	for (int i=0; i<10; i++) {
-		input[i] = (double)i/1000.0;
+		input[i] = (uchar)(i);
+//		input[i] = (double)(i/1000.0);
 //		input[i] = snn.layers[snn.get_layer_index("l1")]->neurons[i]->getInputPtr();
+//		std::cout << input[i] << " ";
 	}
+//	std::cout << "\n";
 	snn.analogs[snn.get_analog_index("a1")]->data = (void*)input;
 
 	bool verbose = true;
@@ -47,12 +52,27 @@ int main(int argc, char* argv[]) {
 //			std::cout << *((double*)(snn.analogs[snn.get_analog_index("a1")]->get_value(i))) << " ";
 //		}
 //		std::cout << "\n";
+		
+		// print activity for l1
 		for (int i=0; i<10; i++) {
 			std::cout << snn.layers[snn.get_layer_index("l1")]->neurons[i]->getAct() << " ";
 		}
 		std::cout << "\n";
+		
+		// print spiking for l1
+		for (int i=0; i<10; i++) {
+			std::cout << snn.layers[snn.get_layer_index("l1")]->neurons[i]->getSpiked() << " ";
+		}
+		std::cout << "\n";
+		
+		// print act for l2
 		for (int i=0; i<10; i++) {
 			std::cout << snn.layers[snn.get_layer_index("l2")]->neurons[i]->getAct() << " ";
+		}
+		std::cout << "\n";
+		// print spiking for l2
+		for (int i=0; i<10; i++) {
+			std::cout << snn.layers[snn.get_layer_index("l2")]->neurons[i]->getSpiked() << " ";
 		}
 		std::cout << "\n";
 		std::cout << "\n";
