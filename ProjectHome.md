@@ -1,0 +1,1 @@
+C++ library for running simulations of spiking neuron models (leaky integrate and fire, adaptive exponential integrate and fire...).
